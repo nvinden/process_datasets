@@ -38,8 +38,8 @@ def DeepGaze(stim, stim_location):
 
     import deepgaze_pytorch
     import torchvision
+    from scipy.misc import face
     from scipy.ndimage import zoom
-    from scipy.misc import logsumexp
 
     DEVICE = "cuda"
 
