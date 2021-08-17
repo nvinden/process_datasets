@@ -1,0 +1,6 @@
+[submodule "saliency"]
+	path = saliency
+	url = https://github.com/rAm1n/saliency.git
+[submodule "DeepGaze"]
+	path = DeepGaze
+	url = https://github.com/matthias-k/DeepGaze.git
