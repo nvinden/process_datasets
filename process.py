@@ -39,8 +39,7 @@ def DeepGaze(stim, stim_location):
     import deepgaze_pytorch
     import torchvision
     from scipy.ndimage import zoom
-    import sklearn.model_selection
-    import scipy
+    from scipy.misc import logsumexp
 
     DEVICE = "cuda"
 
