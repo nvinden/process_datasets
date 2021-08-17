@@ -47,6 +47,8 @@ def DeepGaze(stim, stim_location):
     stim = torchvision.transforms.functional.resize(stim, [768, 1024])
     stim = stim.detach().numpy().transpose(0, 2, 3, 1)
 
+    print("Stimuli made...")
+
     # you can use DeepGazeI or DeepGazeIIE
     model = deepgaze_pytorch.DeepGazeIIE(pretrained=True).to(DEVICE)
 
@@ -54,6 +56,8 @@ def DeepGaze(stim, stim_location):
     # you can download the centerbias from https://github.com/matthias-k/DeepGaze/releases/download/v1.0.0/centerbias_mit1003.npy
     # alternatively, you can use a uniform centerbias via `centerbias_template = np.zeros((1024, 1024))`.
     centerbias_template = np.load('centerbias_mit1003.npy')
+
+    print("Center bias made...")
 
     for image in stim:
         # rescale to match image size
