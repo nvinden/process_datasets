@@ -65,7 +65,7 @@ def DeepGaze(stim, stim_location):
         # rescale to match image size
         centerbias = zoom(centerbias_template, (image.shape[0]/centerbias_template.shape[0], image.shape[1]/centerbias_template.shape[1]), order=0, mode='nearest')
         # renormalize log density
-        centerbias -= scipy.special.logsumexp(centerbias)
+        centerbias -= logsumexp(centerbias)
 
         image_tensor = torch.tensor([image.transpose(2, 0, 1)]).to(DEVICE)
         centerbias_tensor = torch.tensor([centerbias]).to(DEVICE)
