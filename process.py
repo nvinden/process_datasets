@@ -1,4 +1,5 @@
 import torch
+import numpy as np
 
 from saliency import dataset
 
@@ -41,7 +42,7 @@ def DeepGaze(stim, stim_location):
 
     stim = stim.transpose(0, 3, 1, 2)
     stim = torch.from_numpy(stim)
-    stim = torchvision.transforms.functional.resize(stim, [768, 1024])
+    #stim = torchvision.transforms.functional.resize(stim, [768, 1024])
     stim = stim.detach().numpy().transpose(0, 2, 3, 1)
 
     # you can use DeepGazeI or DeepGazeIIE
