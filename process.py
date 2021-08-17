@@ -26,7 +26,12 @@ def main():
 
 def DeepGaze(stim, stim_location):
     import os
+
+    print(os.getcwd())
+
     os.chdir("DeepGaze")
+
+    print(os.getcwd())
 
     import deepgaze_pytorch
     import torchvision
@@ -36,7 +41,6 @@ def DeepGaze(stim, stim_location):
 
     stim = stim.transpose(0, 3, 1, 2)
     stim = torch.from_numpy(stim)
-    stim = stim[0:4]
     stim = torchvision.transforms.functional.resize(stim, [768, 1024])
     stim = stim.detach().numpy().transpose(0, 2, 3, 1)
 
