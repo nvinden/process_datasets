@@ -26,6 +26,8 @@ def main():
 
 
 def DeepGaze(stim, stim_location):
+    print("IN DEEPGAZE")
+
     import os
 
     print(os.getcwd())
