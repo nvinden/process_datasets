@@ -29,9 +29,16 @@ def DeepGaze(stim, stim_location):
     os.chdir("DeepGaze")
 
     import deepgaze_pytorch
+    import torchvision
     from scipy.ndimage import zoom
 
     DEVICE = "cuda"
+
+    stim = stim.transpose(0, 3, 1, 2)
+    stim = torch.from_numpy(stim)
+    stim = stim[0:4]
+    stim = torchvision.transforms.functional.resize(stim, [768, 1024])
+    stim = stim.detach().numpy().transpose(0, 2, 3, 1)
 
     # you can use DeepGazeI or DeepGazeIIE
     model = deepgaze_pytorch.DeepGazeIIE(pretrained=True).to(DEVICE)
@@ -51,6 +58,9 @@ def DeepGaze(stim, stim_location):
         centerbias_tensor = torch.tensor([centerbias]).to(DEVICE)
 
         log_density_prediction = model(image_tensor, centerbias_tensor)
+
+        print(log_density_prediction)
+        print(log_density_prediction.shape)
 
 if __name__ == '__main__':
     main()
