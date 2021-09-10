@@ -26,17 +26,7 @@ def main():
 
 
 def DeepGaze(stim, stim_location):
-    print("IN DEEPGAZE")
-
-    import os
-
-    print(os.getcwd())
-
-    os.chdir("DeepGaze")
-
-    print(os.getcwd())
-
-    import deepgaze_pytorch
+    import DeepGaze.deepgaze_pytorch
     import torchvision
     from scipy.special import logsumexp
     from scipy.ndimage import zoom
@@ -52,7 +42,7 @@ def DeepGaze(stim, stim_location):
     print("Stimuli made...")
 
     # you can use DeepGazeI or DeepGazeIIE
-    model = deepgaze_pytorch.DeepGazeIIE(pretrained=True).to(DEVICE)
+    model = DeepGaze.deepgaze_pytorch.DeepGazeIIE(pretrained=True).to(DEVICE)
 
     # load precomputed centerbias log density (from MIT1003) over a 1024x1024 image
     # you can download the centerbias from https://github.com/matthias-k/DeepGaze/releases/download/v1.0.0/centerbias_mit1003.npy
