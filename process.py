@@ -70,7 +70,7 @@ def DeepGaze(stim, stim_location, curr_dataset):
             os.mkdir(directory_path)
 
         full = os.path.join(directory_path, file_name)
-        np.save(full, log_density_prediction.numpy())
+        np.save(full, log_density_prediction.cpu().detach().numpy())
 
 if __name__ == '__main__':
     main()
