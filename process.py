@@ -36,7 +36,6 @@ def DeepGaze(stim, stim_location, curr_dataset):
 
     stim = stim.transpose(0, 3, 1, 2)
     stim = torch.from_numpy(stim)
-    stim = stim[0:5]
     stim = torchvision.transforms.functional.resize(stim, [768, 1024])
     stim = stim.detach().numpy().transpose(0, 2, 3, 1)
 
@@ -71,6 +70,8 @@ def DeepGaze(stim, stim_location, curr_dataset):
 
         full = os.path.join(directory_path, file_name)
         np.save(full, log_density_prediction.cpu().detach().numpy())
+
+        print(f"Saved: {full}")
 
 if __name__ == '__main__':
     main()
