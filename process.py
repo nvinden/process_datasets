@@ -63,8 +63,14 @@ def DeepGaze(stim, stim_location, curr_dataset):
 
         log_density_prediction = model(image_tensor, centerbias_tensor)
 
-        filename = os.path.join("Datasets", curr_dataset, "DeepgazePriors", "Data" + str(i) + ".npy")
-        np.save(filename, log_density_prediction.numpy())
+        directory_path = os.path.join("Datasets", curr_dataset, "DeepgazePriors")
+        file_name = "Data" + str(i) + ".npy"
+
+        if not os.path.isdir(directory_path):
+            os.mkdir(directory_path)
+
+        full = os.path.join(direcory_path, file_name)
+        np.save(full, log_density_prediction.numpy())
 
 if __name__ == '__main__':
     main()
