@@ -3,9 +3,9 @@ import numpy as np
 
 from saliency import dataset
 
-dataset_list = ("OSIE", )
+dataset_list = ("OSIE", "CAT2000", "MIT1003")
 stim_location_list = ("Datasets/OSIE/data/predicting-human-gaze-beyond-pixels-master/data/stimuli", 
-                        )
+                        "Datasets", "Datasets")
 function_list = ("DeepGaze", )
 
 DATASET_CONFIG = {
@@ -22,14 +22,15 @@ def main():
         stim = ds.get("stimuli")
 
         for function in function_list:
-            eval(function + "(stim, curr_stim_location)")
+            eval(function + "(stim, curr_stim_location, curr_dataset)")
 
 
-def DeepGaze(stim, stim_location):
+def DeepGaze(stim, stim_location, curr_dataset):
     import DeepGaze.deepgaze_pytorch
     import torchvision
     from scipy.special import logsumexp
     from scipy.ndimage import zoom
+    import os
 
     DEVICE = "cuda"
 
@@ -51,7 +52,7 @@ def DeepGaze(stim, stim_location):
 
     print("Center bias made...")
 
-    for image in stim:
+    for i, image in enumerate(stim):
         # rescale to match image size
         centerbias = zoom(centerbias_template, (image.shape[0]/centerbias_template.shape[0], image.shape[1]/centerbias_template.shape[1]), order=0, mode='nearest')
         # renormalize log density
@@ -62,8 +63,8 @@ def DeepGaze(stim, stim_location):
 
         log_density_prediction = model(image_tensor, centerbias_tensor)
 
-        print(log_density_prediction)
-        print(log_density_prediction.shape)
+        filename = os.path.join("Datasets", curr_dataset, "DeepgazePriors", "Data" + str(i) + ".npy")
+        np.save(filename, log_density_prediction.numpy())
 
 if __name__ == '__main__':
     main()
