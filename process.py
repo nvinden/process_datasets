@@ -3,7 +3,7 @@ import numpy as np
 
 from saliency import dataset
 
-dataset_list = ("OSIE", "CAT2000", "MIT1003")
+dataset_list = ("CAT2000", "MIT1003")
 stim_location_list = ("Datasets/OSIE/data/predicting-human-gaze-beyond-pixels-master/data/stimuli", 
                         "Datasets", "Datasets")
 function_list = ("DeepGaze", )
@@ -31,6 +31,9 @@ def DeepGaze(stim, stim_location, curr_dataset):
     from scipy.special import logsumexp
     from scipy.ndimage import zoom
     import os
+    from scipy.misc import face
+
+    image = face()
 
     DEVICE = "cuda"
 
@@ -42,7 +45,7 @@ def DeepGaze(stim, stim_location, curr_dataset):
     print("Stimuli made...")
 
     # you can use DeepGazeI or DeepGazeIIE
-    model = DeepGaze.deepgaze_pytorch.DeepGazeIIE(pretrained=True).to(DEVICE)
+    #model = DeepGaze.deepgaze_pytorch.DeepGazeIIE(pretrained=True).to(DEVICE)
 
     # load precomputed centerbias log density (from MIT1003) over a 1024x1024 image
     # you can download the centerbias from https://github.com/matthias-k/DeepGaze/releases/download/v1.0.0/centerbias_mit1003.npy
