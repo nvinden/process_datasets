@@ -3,10 +3,10 @@ import numpy as np
 
 from saliency import dataset
 
-dataset_list = ("CAT2000", "MIT1003")
+dataset_list = ("OSIE", "MIT1003", "CAT2000")
 stim_location_list = ("Datasets/OSIE/data/predicting-human-gaze-beyond-pixels-master/data/stimuli", 
                         "Datasets", "Datasets")
-function_list = ("DeepGaze", )
+function_list = ("FacialDetection", )
 
 DATASET_CONFIG = {
 	'data_path' : "Datasets",
@@ -21,8 +21,55 @@ def main():
 
         stim = ds.get("stimuli")
 
+        if curr_dataset != "MIT1003":
+            stim = torch.from_numpy(stim)
+
         for function in function_list:
             eval(function + "(stim, curr_stim_location, curr_dataset)")
+
+def FacialDetection(stim, stim_location, curr_dataset):
+    import cv2
+    import os
+    import scipy.misc
+    from PIL import Image
+
+    face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+
+    for i, image in enumerate(stim):
+        if not torch.istensor(image):
+            image = torch.tensor(image)
+        
+        fd_map = torch.zeros(image.shape, dtype = torch.int)
+
+        temp = image.cpu().numpy()
+        gray = cv2.cvtColor(temp, cv2.COLOR_BGR2GRAY)
+        faces = face_cascade.detectMultiScale(gray, 1.1, 4)
+
+        '''
+        im = Image.fromarray(temp)
+        im.save(f"image{i}.jpeg")
+        '''
+
+        for face_no, face in enumerate(faces, start = 1):
+            fd_map[face[1]:face[1] + face[3], face[0]:face[0] + face[2]] = face_no
+
+        '''
+        fd_map_temp = fd_map.cpu().numpy().astype("uint8") * 255 / len(faces)
+        fd_map_temp = fd_map_temp.astype("uint8")
+        fd = Image.fromarray(fd_map_temp)
+        fd.save(f"imagefd{i}.jpeg")
+        '''
+
+        directory_path = os.path.join("Datasets", curr_dataset, "FacialDetectionPriors")
+        file_name = "Data" + str(i) + ".npy"
+
+        if not os.path.isdir(directory_path):
+            os.mkdir(directory_path)
+
+        full = os.path.join(directory_path, file_name)
+        np.save(full, fd_map)
+
+        print(f"Saved: {full}")
 
 
 def DeepGaze(stim, stim_location, curr_dataset):
