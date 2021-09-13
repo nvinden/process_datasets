@@ -3,7 +3,7 @@ import numpy as np
 
 from saliency import dataset
 
-dataset_list = ("MIT1003", "CAT2000")
+dataset_list = ("CAT2000", )
 stim_location_list = ("Datasets/OSIE/data/predicting-human-gaze-beyond-pixels-master/data/stimuli", 
                         "Datasets", "Datasets")
 function_list = ("FacialDetection", )
