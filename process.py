@@ -3,7 +3,7 @@ import numpy as np
 
 from saliency import dataset
 
-dataset_list = ("OSIE", "MIT1003", "CAT2000")
+dataset_list = ("MIT1003", "CAT2000")
 stim_location_list = ("Datasets/OSIE/data/predicting-human-gaze-beyond-pixels-master/data/stimuli", 
                         "Datasets", "Datasets")
 function_list = ("FacialDetection", )
@@ -26,6 +26,9 @@ def main():
 
         for function in function_list:
             eval(function + "(stim, curr_stim_location, curr_dataset)")
+
+def PoseEstimation(stim, stim_location, curr_dataset):
+    pass
 
 def FacialDetection(stim, stim_location, curr_dataset):
     import cv2
