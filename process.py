@@ -36,7 +36,7 @@ def FacialDetection(stim, stim_location, curr_dataset):
     face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 
     for i, image in enumerate(stim):
-        if not torch.istensor(image):
+        if not torch.is_tensor(image):
             image = torch.tensor(image)
         
         fd_map = torch.zeros(image.shape, dtype = torch.int)
